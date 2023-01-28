@@ -9,7 +9,7 @@ import config from "../config/index"
 
 /**********************************************
  * @ADD_PRODUCT
- * @route https://localhost:4000/api/product
+ * @route https://localhost:5000/api/product
  * @description Controller user for creating a new product
  * @description Only admin can create the coupon
  * @description Uses AWS S3 Bucket for image upload
@@ -74,5 +74,46 @@ export const addProduct = asyncHandler(async (req, res) => {
                 message: error.message || "Something went wrong"
             })
         }
+    })
+})
+
+/**********************************************
+ * @GET_ALL_PRODUCT
+ * @route https://localhost:5000/api/product
+ * @description Controller used for getting all products details
+ * @description User and admin can get all the products
+ * @returns Product Object
+ **********************************************/
+
+export const getAllProducts = asyncHandler(async (req, res) => {
+    const products = await Product.find({})
+
+    if (!products) {
+        throw new CustomError("Product was not found", 404)
+    }
+    res.status(200).json({
+        success: true,
+        products
+    })
+})
+
+/**********************************************
+ * @GET_PRODUCT_BY_ID
+ * @route https://localhost:5000/api/product
+ * @description Controller used for getting single product details
+ * @description User and admin can get single product detail
+ * @returns Product Object
+ **********************************************/
+
+export const getProductById = asyncHandler(async (req, res) => {
+    const {id: productId} = req.params
+    const product = await Product.findById(productId)
+
+    if (!product) {
+        throw new CustomError("Product was not found", 404)
+    }
+    res.status(200).json({
+        success: true,
+        product
     })
 })
