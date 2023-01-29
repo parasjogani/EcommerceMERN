@@ -1,7 +1,7 @@
-import User from "../models/user.schema"
-import asyncHandler from "../services/asyncHandler"
-import CustomError from "../utils/customError"
-import mailHelper from "../utils/mailHelper"
+import User from "../models/user.schema.js"
+import asyncHandler from "../services/asyncHandler.js"
+import CustomError from "../utils/customError.js"
+import mailHelper from "../utils/mailHelper.js"
 import crypto from "crypto"
 
 
