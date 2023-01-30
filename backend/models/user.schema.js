@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema(
             type: String,
             required: [true, "Password must required"],
             minLength: [8, "password must be at least 8 characters"],
-            match: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, //checks at least one char, one number and one special char.
+            match: [/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, "Password must contain one character, one number and one special character"], //checks at least one char, one number and one special char.
             select: false
         },
         role: {
@@ -40,7 +40,7 @@ const userSchema = mongoose.Schema(
 
 // encrypt password
 userSchema.pre("save", async function(next){
-    if (!this.modified("password")) return next();
+    if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 10)
     next()
 })

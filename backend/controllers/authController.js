@@ -3,6 +3,7 @@ import asyncHandler from "../services/asyncHandler.js"
 import CustomError from "../utils/customError.js"
 import mailHelper from "../utils/mailHelper.js"
 import crypto from "crypto"
+import { resolve } from "path"
 
 
 export const cookieOption = {
@@ -64,8 +65,7 @@ export const login = asyncHandler(async (req, res) => {
         throw new CustomError("Please fill all details", 400)
     }
 
-    const user = User.findOne({email}).select("+password")
-
+    const user = await User.findOne({email}).select("+password")
     if (!user) {
         throw new CustomError("Invalid credentials", 400)
     }
