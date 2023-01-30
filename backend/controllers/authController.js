@@ -233,8 +233,8 @@ export const changePassword = asyncHandler(async (req, res) => {
    const {email, oldPassword, newPassword, confirmNewPassword} = req.body
 
    const user = await User.findOne({email}).select("+password")
-   const isOldPasswordMatched = user.comparePassword(oldPassword)
-
+   const isOldPasswordMatched = await user.comparePassword(oldPassword)
+    console.log(isOldPasswordMatched);
    if(!isOldPasswordMatched){
         throw new CustomError("Invalid credentials")
    }
