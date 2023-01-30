@@ -254,7 +254,55 @@ export const changePassword = asyncHandler(async (req, res) => {
        success: true,
        user
    })
+})
 
+/**************************************************
+ * @BLOCK_USER
+ * @route http://localhost:4000/api/auth/block-user/:id
+ * @description Admin will be able to block user
+ * @parameters userid
+ * @returns User Object
+ **************************************************/
 
+export const blockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params
 
+    const block = await User.findByIdAndUpdate(
+        id,
+        {
+            isBlocked: true
+        },
+        {
+            new: true
+        }
+    )
+    res.status(200).json({
+        success: true,
+        message: "User Blocked"
+    })
+})
+/**************************************************
+ * @UNBLOCK_USER
+ * @route http://localhost:4000/api/auth/unblock-user/:id
+ * @description Admin will be able to unblock user
+ * @parameters userid
+ * @returns User Object
+ **************************************************/
+
+export const unblockUser = asyncHandler(async (req, res) => {
+    const { id } = req.params
+
+    const block = await User.findByIdAndUpdate(
+        id,
+        {
+            isBlocked: false
+        },
+        {
+            new: true
+        }
+    )
+    res.status(200).json({
+        success: true,
+        message: "User Unblocked"
+    })
 })

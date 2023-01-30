@@ -30,6 +30,10 @@ const userSchema = mongoose.Schema(
             enum: Object.values(AuthRoles),
             default: AuthRoles.USER
         },
+        isBlocked:{
+            type: Boolean,
+            default: false
+        },
         forgotPasswordToken: String,
         forgotPasswordExpiry: Date,
     },
