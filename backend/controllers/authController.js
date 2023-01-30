@@ -3,7 +3,6 @@ import asyncHandler from "../services/asyncHandler.js"
 import CustomError from "../utils/customError.js"
 import mailHelper from "../utils/mailHelper.js"
 import crypto from "crypto"
-import { resolve } from "path"
 
 
 export const cookieOption = {
@@ -164,12 +163,12 @@ export const forgotPassword = asyncHandler(async(req, res) => {
 export const  resetPassword = asyncHandler(async (req, res) => {
     const {token: resetToken} = req.params
     const {password, confirmpassword} = req.body
-
+    
     const resetPasswordToken = crypto
     .createHash("sha256")
     .update(resetToken)
     .digest("hex")
-
+    
     const user = await User.findOne({
         forgotPasswordToken: resetPasswordToken,
         forgotPasswordExpiry: {$gt: Date.now()}
@@ -194,7 +193,7 @@ export const  resetPassword = asyncHandler(async (req, res) => {
     user.password = undefined
     
     //helper method for cookie can be added
-    res.cookie("token", token, cookieOptions)
+    res.cookie("token", token, cookieOption)
     res.status(200).json({
         success: true,
         user
@@ -225,7 +224,37 @@ export const getProfile = asyncHandler(async (req, res) => {
 /**************************************************
  * @CHANGE_PASSWORD
  * @route http://localhost:4000/api/auth/password/changepassword
- * @description User will be able to reset password based on url token
- * @parameters token from url, password and confirm password
+ * @description User will be able to changed password, need to enter old correct password
+ * @parameters old password, password and confirm password
  * @returns User Object
  **************************************************/
+
+export const changePassword = asyncHandler(async (req, res) => {
+   const {email, oldPassword, newPassword, confirmNewPassword} = req.body
+
+   const user = await User.findOne({email}).select("+password")
+   const isOldPasswordMatched = user.comparePassword(oldPassword)
+
+   if(!isOldPasswordMatched){
+        throw new CustomError("Invalid credentials")
+   }
+
+   if (newPassword !== confirmNewPassword) {
+        throw new CustomError("Password does not matched")
+   }
+
+   user.password = newPassword
+   await user.save()
+
+   const token = user.getJwtToken()
+   user.password = undefined
+   
+   res.cookie("token", token, cookieOption)
+   res.status(200).json({
+       success: true,
+       user
+   })
+
+
+
+})
