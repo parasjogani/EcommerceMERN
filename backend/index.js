@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import app from "./app.js"
 import config from "./config/index.js"
 import authRouter from "./routes/authRoutes.js"
+import productRouter from "./routes/productRoutes.js"
 
 (async () => {
     try {
@@ -14,6 +15,7 @@ import authRouter from "./routes/authRoutes.js"
         })
 
         app.use('/api/auth', authRouter)
+        app.use('/api/product', productRouter)
 
         app.listen(config.PORT, () => {
             console.log(`Port listening at ${config.PORT}`);

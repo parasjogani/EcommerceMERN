@@ -1,11 +1,11 @@
-import Product from "../models/product.schema"
+import Product from "../models/product.schema.js"
 import formidable from "formidable"
 import fs from "fs"
-import {s3FileDelete, s3FileUpload} from "../services/imageUpload"
+import {s3FileDelete, s3FileUpload} from "../services/imageUpload.js"
 import Mongoose from "mongoose"
-import asyncHandler from "../services/asyncHandler"
-import CustomError from "../utils/customError"
-import config from "../config/index"
+import asyncHandler from "../services/asyncHandler.js"
+import CustomError from "../utils/customError.js"
+import config from "../config/index.js"
 
 /**********************************************
  * @ADD_PRODUCT
@@ -29,10 +29,10 @@ export const addProduct = asyncHandler(async (req, res) => {
             }
             let productId = new Mongoose.Types.ObjectId().toHexString()
 
-            if (!fields.name || !fields.price || fields.description || fields.collectionId) {
+            if (!fields.name || !fields.price || !fields.description || !fields.collectionId) {
                 throw new CustomError("All details must required", 500)
             }
-
+            
             //handling images
             let imgArrayResp = Promise.all(
                 Object.keys(files).map(async (filekey, index) => {
@@ -51,7 +51,6 @@ export const addProduct = asyncHandler(async (req, res) => {
                     }
                 })
             )
-
             let imgArray = await imgArrayResp;
 
             const product = await Product.create({
