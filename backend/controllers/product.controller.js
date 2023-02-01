@@ -85,7 +85,8 @@ export const addProduct = asyncHandler(async (req, res) => {
  **********************************************/
 
 export const getAllProducts = asyncHandler(async (req, res) => {
-    const products = await Product.find({})
+    const queryObj = {...req.query}
+    const products = await Product.find(queryObj)
 
     if (!products) {
         throw new CustomError("Product was not found", 404)
@@ -115,4 +116,54 @@ export const getProductById = asyncHandler(async (req, res) => {
         success: true,
         product
     })
+})
+
+/**********************************************
+ * @UPDATE_PRODUCT
+ * @route https://localhost:5000/api/product/
+ * @description Controller used for updating value of product
+ * @description User and admin can update value of product
+ * @returns Product Object
+ **********************************************/
+
+export const updateProduct = asyncHandler(async (req, res) => {
+    const { id } = req.params
+    const updateProduct = await Product.findByIdAndUpdate(id, req.body, {
+        new: true
+    })
+
+    if (!updateProduct) {
+        throw new CustomError("Product not found", 400)
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Product updated successfully",
+        updateProduct
+    })
+
+})
+
+/**********************************************
+ * @UPDATE_PRODUCT
+ * @route https://localhost:5000/api/product/
+ * @description Controller used for updating value of product
+ * @description User and admin can update value of product
+ * @returns Product Object
+ **********************************************/
+
+export const deleteProduct = asyncHandler(async (req, res) => {
+    const { id } = req.params
+    const deletedProduct = await Product.findByIdAndDelete(id)
+
+    if (!deletedProduct) {
+        throw new CustomError("Product not found", 400)
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Product deleted successfully",
+        deletedProduct
+    })
+
 })

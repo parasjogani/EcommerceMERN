@@ -1,11 +1,11 @@
-import Collection from "../models/collection.schema"
-import asyncHandler from "../services/asyncHandler"
-import CustomError from "../utils/customError"
+import Collection from "../models/collection.schema.js"
+import asyncHandler from "../services/asyncHandler.js"
+import CustomError from "../utils/customError.js"
 
 /**************************************************
  * @Create_Collection
  * @route http://localhost:4000/api/collection
- * @description User create collection
+ * @description Admin can create collection
  * @parameters 
  * @return collection
  **************************************************/
@@ -21,10 +21,18 @@ export const createCollection = asyncHandler(async (req, res) => {
     })
     res.status(200).json({
         success: true,
-        message: "Coolection created successfully",
+        message: "Collection created successfully",
         collection
     })
 })
+
+/**************************************************
+ * @Update_Collection
+ * @route http://localhost:4000/api/collection
+ * @description Admin can update collection
+ * @parameters collection id
+ * @return collection
+ **************************************************/
 
 export const updateCollection = asyncHandler(async (req, res) => {
     const {id: collectionId} = req.params
@@ -59,6 +67,14 @@ export const updateCollection = asyncHandler(async (req, res) => {
     })
 })
 
+/**************************************************
+ * @Delete_Collection
+ * @route http://localhost:4000/api/collection
+ * @description Admin can delete collection
+ * @parameters collection id
+ * @return collection
+ **************************************************/
+
 export const deleteCollection = asyncHandler(async (req, res) => {
     const {id: collectionId} = req.params
 
@@ -74,6 +90,14 @@ export const deleteCollection = asyncHandler(async (req, res) => {
         message: "Collection deleted successfully"
     })
 })
+
+/**************************************************
+ * @Get_Collection
+ * @route http://localhost:4000/api/collection
+ * @description User and admin can get all collection
+ * @parameters 
+ * @return collection
+ **************************************************/
 
 export const getCollection = asyncHandler(async (req, res) => {
     const collections = await Collection.find()
