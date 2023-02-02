@@ -30,10 +30,11 @@ const userSchema = mongoose.Schema(
             enum: Object.values(AuthRoles),
             default: AuthRoles.USER
         },
-        isBlocked:{
+        isBlocked: {
             type: Boolean,
             default: false
         },
+        wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
         forgotPasswordToken: String,
         forgotPasswordExpiry: Date,
     },
@@ -43,7 +44,7 @@ const userSchema = mongoose.Schema(
 );
 
 // encrypt password
-userSchema.pre("save", async function(next){
+userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
     this.password = await bcrypt.hash(this.password, 10)
     next()
@@ -52,12 +53,12 @@ userSchema.pre("save", async function(next){
 // add more features to schema
 userSchema.methods = {
     // compare password
-    comparePassword: async function(enteredPassword){
+    comparePassword: async function (enteredPassword) {
         return await bcrypt.compare(enteredPassword, this.password)
     },
 
     // generate JWT token
-    getJwtToken: function(){
+    getJwtToken: function () {
         return JWT.sign(
             {
                 _id: this._id,
@@ -71,14 +72,14 @@ userSchema.methods = {
     },
 
     // generate forgot password token
-    generateForgotPasswordToken: function(){
+    generateForgotPasswordToken: function () {
         const forgotToken = crypto.randomBytes(22).toString('hex')
 
         // save to DB
         this.forgotPasswordToken = crypto
-        .createHash("sha256")
-        .update(forgotToken)
-        .digest("hex")
+            .createHash("sha256")
+            .update(forgotToken)
+            .digest("hex")
 
         this.forgotPasswordExpiry = Date.now() + 20 * 60 * 1000
 

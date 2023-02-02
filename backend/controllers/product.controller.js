@@ -1,11 +1,12 @@
 import Product from "../models/product.schema.js"
 import formidable from "formidable"
 import fs from "fs"
-import {s3FileDelete, s3FileUpload} from "../services/imageUpload.js"
+import { s3FileDelete, s3FileUpload } from "../services/imageUpload.js"
 import Mongoose from "mongoose"
 import asyncHandler from "../services/asyncHandler.js"
 import CustomError from "../utils/customError.js"
 import config from "../config/index.js"
+import User from "../models/user.schema.js"
 
 /**********************************************
  * @ADD_PRODUCT
@@ -22,7 +23,7 @@ export const addProduct = asyncHandler(async (req, res) => {
         keepExtensions: true
     })
 
-    form.parse(req, async function(err, fields, files){
+    form.parse(req, async function (err, fields, files) {
         try {
             if (err) {
                 throw new CustomError("Something went wrong", 500)
@@ -32,7 +33,7 @@ export const addProduct = asyncHandler(async (req, res) => {
             if (!fields.name || !fields.price || !fields.description || !fields.collectionId) {
                 throw new CustomError("All details must required", 500)
             }
-            
+
             //handling images
             let imgArrayResp = Promise.all(
                 Object.keys(files).map(async (filekey, index) => {
@@ -46,7 +47,7 @@ export const addProduct = asyncHandler(async (req, res) => {
                         body: data,
                         contentType: element.mimetype
                     })
-                    return{
+                    return {
                         secure_url: upload.Location
                     }
                 })
@@ -85,7 +86,7 @@ export const addProduct = asyncHandler(async (req, res) => {
  **********************************************/
 
 export const getAllProducts = asyncHandler(async (req, res) => {
-    const queryObj = {...req.query}
+    const queryObj = { ...req.query }
     const products = await Product.find(queryObj)
 
     if (!products) {
@@ -106,7 +107,7 @@ export const getAllProducts = asyncHandler(async (req, res) => {
  **********************************************/
 
 export const getProductById = asyncHandler(async (req, res) => {
-    const {id: productId} = req.params
+    const { id: productId } = req.params
     const product = await Product.findById(productId)
 
     if (!product) {
@@ -145,10 +146,10 @@ export const updateProduct = asyncHandler(async (req, res) => {
 })
 
 /**********************************************
- * @UPDATE_PRODUCT
+ * @DELETE_PRODUCT
  * @route https://localhost:5000/api/product/
- * @description Controller used for updating value of product
- * @description User and admin can update value of product
+ * @description Controller used for deleting product
+ * @description Only admin can delete a product
  * @returns Product Object
  **********************************************/
 
@@ -166,4 +167,48 @@ export const deleteProduct = asyncHandler(async (req, res) => {
         deletedProduct
     })
 
+})
+
+/**********************************************
+ * @WISHLIST_PRODUCT
+ * @route https://localhost:5000/api/product/wishlist
+ * @description Controller used for wishlist product
+ * @description User and admin can wishlist product
+ * @returns Product Object
+ **********************************************/
+
+export const wishlistProduct = asyncHandler(async (req, res) => {
+    const { _id } = req.user
+    const { productId } = req.body
+
+    const user = await User.findById(_id)
+    const alreadyAdded = user.wishlist.find((id) => id.toString() === productId)
+
+    if (alreadyAdded) {
+        let user = await User.findByIdAndUpdate(_id, {
+            $pull: { wishlist: productId }
+        },
+            {
+                new: true
+            }
+        )
+        res.status(200).json({
+            success: true,
+            message: "Product removed from your wishlist",
+            user
+        })
+    } else {
+        let user = await User.findByIdAndUpdate(_id, {
+            $push: { wishlist: productId }
+        },
+            {
+                new: true
+            }
+        )
+        res.status(200).json({
+            success: true,
+            message: "Product added to your wishlist",
+            user
+        })
+    }
 })
