@@ -25,6 +25,11 @@ const userSchema = mongoose.Schema(
             match: [/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, "Password must contain one character, one number and one special character"], //checks at least one char, one number and one special char.
             select: false
         },
+        address: {
+            type: String,
+            maxLength: [100, "Address must be less than 100 character"],
+            default: null
+        },
         role: {
             type: String,
             enum: Object.values(AuthRoles),

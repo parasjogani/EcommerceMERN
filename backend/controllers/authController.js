@@ -19,14 +19,14 @@ export const cookieOption = {
  **************************************************/
 
 export const signUp = asyncHandler(async (req, res) => {
-    const {name, email, password} = req.body
+    const { name, email, password } = req.body
 
     if (!name || !email || !password) {
         throw new CustomError("Please fill all details", 400)
     }
 
     //check user already exist or not
-    const existingUser = await User.findOne({email})
+    const existingUser = await User.findOne({ email })
 
     if (existingUser) {
         throw new CustomError("User already exist", 400)
@@ -58,13 +58,13 @@ export const signUp = asyncHandler(async (req, res) => {
  **************************************************/
 
 export const login = asyncHandler(async (req, res) => {
-    const {email, password} = req.body
+    const { email, password } = req.body
 
     if (!email || !password) {
         throw new CustomError("Please fill all details", 400)
     }
 
-    const user = await User.findOne({email}).select("+password")
+    const user = await User.findOne({ email }).select("+password")
     if (!user) {
         throw new CustomError("Invalid credentials", 400)
     }
@@ -112,22 +112,22 @@ export const logout = asyncHandler(async (req, res) => {
  * @returns success message - email - send
  **************************************************/
 
-export const forgotPassword = asyncHandler(async(req, res) => {
-    const {email} = req.body
+export const forgotPassword = asyncHandler(async (req, res) => {
+    const { email } = req.body
     if (email == "") {
         throw new CustomError("Please enter valid email", 400)
     }
-    const user = await User.findOne({email})
+    const user = await User.findOne({ email })
 
     if (!user) {
         throw new CustomError("User not found", 404)
     }
     const resetToken = user.generateForgotPasswordToken()
 
-    await user.save({validateBeforeSave: false})
+    await user.save({ validateBeforeSave: false })
 
-    const resetUrl = 
-    `${req.protocol}://${req.get("host")}/api/auth/password/reset/${resetToken}`
+    const resetUrl =
+        `${req.protocol}://${req.get("host")}/api/auth/password/reset/${resetToken}`
 
     const text = `Tap the below link to reset your password
     \n\n ${resetUrl}\n\n
@@ -146,9 +146,9 @@ export const forgotPassword = asyncHandler(async(req, res) => {
         user.forgotPasswordToken = undefined
         user.forgotPasswordExpiry = undefined
 
-        await user.save({validateBeforeSave: false})
+        await user.save({ validateBeforeSave: false })
 
-        throw new CustomError(error.message || "Something went wrong", 500) 
+        throw new CustomError(error.message || "Something went wrong", 500)
     }
 })
 
@@ -160,18 +160,18 @@ export const forgotPassword = asyncHandler(async(req, res) => {
  * @returns User Object
  **************************************************/
 
-export const  resetPassword = asyncHandler(async (req, res) => {
-    const {token: resetToken} = req.params
-    const {password, confirmpassword} = req.body
-    
+export const resetPassword = asyncHandler(async (req, res) => {
+    const { token: resetToken } = req.params
+    const { password, confirmpassword } = req.body
+
     const resetPasswordToken = crypto
-    .createHash("sha256")
-    .update(resetToken)
-    .digest("hex")
-    
+        .createHash("sha256")
+        .update(resetToken)
+        .digest("hex")
+
     const user = await User.findOne({
         forgotPasswordToken: resetPasswordToken,
-        forgotPasswordExpiry: {$gt: Date.now()}
+        forgotPasswordExpiry: { $gt: Date.now() }
     })
 
     if (!user) {
@@ -191,7 +191,7 @@ export const  resetPassword = asyncHandler(async (req, res) => {
     //create token and send as response
     const token = user.getJwtToken()
     user.password = undefined
-    
+
     //helper method for cookie can be added
     res.cookie("token", token, cookieOption)
     res.status(200).json({
@@ -210,7 +210,7 @@ export const  resetPassword = asyncHandler(async (req, res) => {
  **************************************************/
 
 export const getProfile = asyncHandler(async (req, res) => {
-    const {user} = req
+    const { user } = req
 
     if (!user) {
         throw new CustomError("User not found", 404)
@@ -230,30 +230,30 @@ export const getProfile = asyncHandler(async (req, res) => {
  **************************************************/
 
 export const changePassword = asyncHandler(async (req, res) => {
-   const {email, oldPassword, newPassword, confirmNewPassword} = req.body
+    const { email, oldPassword, newPassword, confirmNewPassword } = req.body
 
-   const user = await User.findOne({email}).select("+password")
-   const isOldPasswordMatched = await user.comparePassword(oldPassword)
+    const user = await User.findOne({ email }).select("+password")
+    const isOldPasswordMatched = await user.comparePassword(oldPassword)
     console.log(isOldPasswordMatched);
-   if(!isOldPasswordMatched){
+    if (!isOldPasswordMatched) {
         throw new CustomError("Invalid credentials")
-   }
+    }
 
-   if (newPassword !== confirmNewPassword) {
+    if (newPassword !== confirmNewPassword) {
         throw new CustomError("Password does not matched")
-   }
+    }
 
-   user.password = newPassword
-   await user.save()
+    user.password = newPassword
+    await user.save()
 
-   const token = user.getJwtToken()
-   user.password = undefined
-   
-   res.cookie("token", token, cookieOption)
-   res.status(200).json({
-       success: true,
-       user
-   })
+    const token = user.getJwtToken()
+    user.password = undefined
+
+    res.cookie("token", token, cookieOption)
+    res.status(200).json({
+        success: true,
+        user
+    })
 })
 
 /**************************************************
@@ -281,6 +281,7 @@ export const blockUser = asyncHandler(async (req, res) => {
         message: "User Blocked"
     })
 })
+
 /**************************************************
  * @UNBLOCK_USER
  * @route http://localhost:4000/api/auth/unblock-user/:id
@@ -306,3 +307,49 @@ export const unblockUser = asyncHandler(async (req, res) => {
         message: "User Unblocked"
     })
 })
+
+/**************************************************
+ * @GET_WISHLIST
+ * @route http://localhost:4000/api/auth/wishlist
+ * @description User can get all wishlisted item
+ * @parameters 
+ * @returns User Object
+ **************************************************/
+
+export const getWishlist = asyncHandler(async (req, res) => {
+    const { _id } = req.user
+    const user = await User.findById(_id).populate("wishlist")
+
+    res.status(200).json({
+        success: true,
+        message: "Wishlist got successfully",
+        user
+    })
+
+})
+
+/**************************************************
+ * @ADD_ADDRESS
+ * @route http://localhost:4000/api/auth/add-address
+ * @description User can add address
+ * @parameters 
+ * @returns User Object
+ **************************************************/
+
+export const addAddress = asyncHandler(async (req, res) => {
+    const { _id } = req.user
+ 
+    const updatedUser = await User.findByIdAndUpdate(_id, {
+        address: req.body.address
+    },
+        {
+            new: true
+        }
+    )
+    res.status(200).json({
+        success: true,
+        message: "Address added successfully",
+        updatedUser
+    })
+})
+
