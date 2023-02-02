@@ -5,7 +5,7 @@ import morgan from "morgan"
 import authRouter from "./routes/authRoutes.js"
 import productRouter from "./routes/productRoutes.js"
 import collectionRouter from "./routes/collectionRoutes.js"
-
+import couponRouter from "./routes/couponRoutes.js"
 
 const app = express()
 
@@ -21,6 +21,7 @@ app.use(morgan("tiny"))
 app.use('/api/auth', authRouter)
 app.use('/api/product', productRouter)
 app.use('/api/collection', collectionRouter)
+app.use('/api/coupon', couponRouter)
 
 
 export default app

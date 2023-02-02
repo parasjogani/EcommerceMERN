@@ -4,11 +4,14 @@ const couponSchema = mongoose.Schema(
     {
         code: {
             type: String,
-            required: [true, "Please provide coupon name"]
+            required: [true, "Please provide coupon name"],
+            uppercase: true,
+            required: true
         },
         discount: {
             type: Number,
-            default: 0
+            default: 0,
+            required: true
         },
         active: {
             type: Boolean,
