@@ -1,5 +1,5 @@
 import express from "express"
-import { addAddress, adminLogin, blockUser, changePassword, forgotPassword, getProfile, getWishlist, login, logout, resetPassword, signUp, unblockUser } from "../controllers/authController.js"
+import { addAddress, adminLogin, applyCoupon, blockUser, changePassword, emptyCart, forgotPassword, getProfile, getUserCart, getWishlist, login, logout, resetPassword, signUp, unblockUser, userCart } from "../controllers/authController.js"
 import { isLoggedIn, isAdmin } from "../middlewares/auth.middleware.js"
 const router = express.Router()
 
@@ -11,6 +11,10 @@ router.post("/logout",isLoggedIn, logout)
 router.get("/profile", isLoggedIn, getProfile)
 router.get("/wishlist", isLoggedIn, getWishlist)
 router.put("/add-address", isLoggedIn, addAddress)
+router.post("/cart", isLoggedIn, userCart)
+router.get("/cart", isLoggedIn, getUserCart)
+router.delete("/empty-cart", isLoggedIn, emptyCart)
+router.post("/cart/apply-coupon", isLoggedIn, applyCoupon)
 
 router.post("/password/forgot", forgotPassword)
 router.post("/password/reset/:token", resetPassword)

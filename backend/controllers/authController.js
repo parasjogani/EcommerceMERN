@@ -1,4 +1,7 @@
 import User from "../models/user.schema.js"
+import Product from "../models/product.schema.js"
+import Cart from "../models/cart.schema.js"
+import Coupon from "../models/coupon.schema.js"
 import asyncHandler from "../services/asyncHandler.js"
 import CustomError from "../utils/customError.js"
 import mailHelper from "../utils/mailHelper.js"
@@ -377,7 +380,7 @@ export const getWishlist = asyncHandler(async (req, res) => {
 
 export const addAddress = asyncHandler(async (req, res) => {
     const { _id } = req.user
- 
+
     const updatedUser = await User.findByIdAndUpdate(_id, {
         address: req.body.address
     },
@@ -390,5 +393,119 @@ export const addAddress = asyncHandler(async (req, res) => {
         message: "Address added successfully",
         updatedUser
     })
+})
+
+/**************************************************
+ * @ADD_TO_CART
+ * @route http://localhost:4000/api/auth/cart
+ * @description User can add product in cart
+ * @parameters 
+ * @returns Cart Object
+ **************************************************/
+
+export const userCart = asyncHandler(async (req, res) => {
+    const { cart } = req.body
+    const { _id } = req.user
+    let products = []
+    const user = await User.findById(_id)
+
+    const alreadyAdded = await Cart.findOne({ orderby: user._id })
+    if (alreadyAdded) {
+        alreadyAdded.remove()
+    }
+
+    for (let i = 0; i < cart.length; i++) {
+        let object = {}
+        object.product = cart[i]._id
+        object.count = cart[i].count
+
+        let getPrice = await Product.findById(cart[i]._id).select("price").exec()
+        object.price = getPrice.price
+        products.push(object)
+    }
+
+    let cartTotal = 0
+    for (let i = 0; i < products.length; i++) {
+        cartTotal = cartTotal + products[i].price * products[i].count
+    }
+
+    let newCart = await new Cart({
+        products,
+        cartTotal,
+        orderby: user._id
+    })
+    newCart.save()
+    res.status(200).json({
+        success: true,
+        newCart
+    })
+})
+
+/**************************************************
+ * @GET_CART_PRODUCTS
+ * @route http://localhost:4000/api/auth/cart
+ * @description User can get product which is in cart
+ * @parameters 
+ * @returns Cart Object
+ **************************************************/
+
+export const getUserCart = asyncHandler(async (req, res) => {
+    const { _id } = req.user
+
+    const cart = await Cart.findOne({ orderby: _id }).populate("products.product")
+    res.status(200).json({
+        success: true,
+        cart
+    })
+})
+
+/**************************************************
+ * @EMPTY_CART_PRODUCTS
+ * @route http://localhost:4000/api/auth/empty-cart
+ * @description User can get product which is in cart
+ * @parameters 
+ * @returns Cart Object
+ **************************************************/
+
+export const emptyCart = asyncHandler(async (req, res) => {
+    const { _id } = req.user
+
+    const user = await User.findOne({ _id })
+    const cart = await Cart.findOneAndRemove({ orderby: user._id })
+    res.status(200).json({
+        success: true,
+        cart
+    })
+})
+
+
+export const applyCoupon = asyncHandler(async (req, res) => {
+    const { coupon } = req.body
+    const { _id } = req.user
+    const isValid = await Coupon.findOne({ code: coupon })
+
+    if (isValid === null) {
+        throw new CustomError("Coupon is invalid", 400)
+    }
+
+    const user = await User.findOne({ _id })
+    let { products, cartTotal } = await Cart.findOne({ orderby: user._id }).populate("products.product")
+    let totalAfterDiscount = (cartTotal - (cartTotal * isValid.discount) / 100).toFixed(2)
+    await Cart.findOneAndUpdate({
+        orderby: user._id
+    },
+        {
+            totalAfterDiscount
+        },
+        {
+            new: true
+        })
+    res.status(200).json({
+        success:true,
+        totalAfterDiscount
+    })
+
+
+
 })
 

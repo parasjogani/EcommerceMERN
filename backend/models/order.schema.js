@@ -16,7 +16,7 @@ const orderSchema = mongoose.Schema(
             ],
             required: true
         },
-        user: {
+        orderby: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true
@@ -39,10 +39,7 @@ const orderSchema = mongoose.Schema(
             type: String,
             enum: ["ORDERED", "SHIPPED", "DELIVERED", "CANCELLED"],
             default: "ORDERED"
-            // editing 
-        },
-        // add payment mode: upi, creditcard or wallet , COD
-
+        },  
     },
     {
         timestamps: true
