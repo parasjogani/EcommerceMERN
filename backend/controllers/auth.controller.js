@@ -478,6 +478,13 @@ export const emptyCart = asyncHandler(async (req, res) => {
     })
 })
 
+/**************************************************
+ * @APPLY_COUPON
+ * @route http://localhost:4000/api/auth/apply-coupon
+ * @description User can get product which is in cart
+ * @parameters 
+ * @returns Cart Object
+ **************************************************/
 
 export const applyCoupon = asyncHandler(async (req, res) => {
     const { coupon } = req.body
@@ -501,7 +508,7 @@ export const applyCoupon = asyncHandler(async (req, res) => {
             new: true
         })
     res.status(200).json({
-        success:true,
+        success: true,
         totalAfterDiscount
     })
 

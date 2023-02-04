@@ -1,5 +1,5 @@
 import express from "express"
-import { addAddress, adminLogin, applyCoupon, blockUser, changePassword, emptyCart, forgotPassword, getProfile, getUserCart, getWishlist, login, logout, resetPassword, signUp, unblockUser, userCart } from "../controllers/authController.js"
+import { addAddress, adminLogin, applyCoupon, blockUser, changePassword, emptyCart, forgotPassword, getProfile, getUserCart, getWishlist, login, logout, resetPassword, signUp, unblockUser, userCart } from "../controllers/auth.controller.js"
 import { isLoggedIn, isAdmin } from "../middlewares/auth.middleware.js"
 const router = express.Router()
 
