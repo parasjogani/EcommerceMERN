@@ -1,10 +1,11 @@
 import express from "express"
-import { addAddress, blockUser, changePassword, forgotPassword, getProfile, getWishlist, login, logout, resetPassword, signUp, unblockUser } from "../controllers/authController.js"
+import { addAddress, adminLogin, blockUser, changePassword, forgotPassword, getProfile, getWishlist, login, logout, resetPassword, signUp, unblockUser } from "../controllers/authController.js"
 import { isLoggedIn, isAdmin } from "../middlewares/auth.middleware.js"
 const router = express.Router()
 
 router.post("/signup", signUp)
 router.post("/login", login)
+router.post("/admin-login", adminLogin)
 router.post("/logout",isLoggedIn, logout)
 
 router.get("/profile", isLoggedIn, getProfile)
