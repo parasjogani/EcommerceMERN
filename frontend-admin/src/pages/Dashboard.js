@@ -1,5 +1,4 @@
 import React from 'react'
-import { Column } from '@ant-design/plots';
 import { Table } from 'antd';
 
 //Recent Order Table Start
@@ -39,87 +38,6 @@ for (let i = 0; i < 46; i++) {
 
 
 const Dashboard = () => {
-  const data = [
-    {
-      type: 'Jan',
-      sales: 38,
-    },
-    {
-      type: 'Feb',
-      sales: 52,
-    },
-    {
-      type: 'Mar',
-      sales: 61,
-    },
-    {
-      type: 'Apr',
-      sales: 145,
-    },
-    {
-      type: 'May',
-      sales: 48,
-    },
-    {
-      type: 'June',
-      sales: 38,
-    },
-    {
-      type: 'Jul',
-      sales: 72,
-    },
-    {
-      type: 'Aug',
-      sales: 56,
-    },
-    {
-      type: 'Sep',
-      sales: 123,
-    },
-    {
-      type: 'Oct',
-      sales: 89,
-    },
-    {
-      type: 'Nov',
-      sales: 67,
-    },
-    {
-      type: 'Dec',
-      sales: 43,
-    },
-  ];
-  const config = {
-    data,
-    xField: 'type',
-    yField: 'sales',
-    color: ({ type }) => {
-      return "#ffd333";
-    },
-    label: {
-
-      position: 'middle',
-
-      style: {
-        fill: '#FFFFFF',
-        opacity: 1,
-      },
-    },
-    xAxis: {
-      label: {
-        autoHide: true,
-        autoRotate: false,
-      },
-    },
-    meta: {
-      type: {
-        alias: 'Months',
-      },
-      sales: {
-        alias: 'Income',
-      },
-    },
-  };
   return (
     <div>
       <h3 className="mb-4">Dashboard</h3>
@@ -150,13 +68,6 @@ const Dashboard = () => {
             <h6>43%</h6>
             <p className="mb-0">Comapared to April 2022</p>
           </div>
-        </div>
-      </div>
-
-      <div className="mt-4">
-        <h3 className="mb-4">Income Statastics</h3>
-        <div>
-          <Column {...config} />
         </div>
       </div>
       <div className="mt-4">
