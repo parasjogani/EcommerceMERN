@@ -75,3 +75,8 @@ main {
 main::-webkit-scrollbar {
   width: 0;
 }
+
+.error {
+  color: #ff0000;
+  font-size: 12px;
+}
