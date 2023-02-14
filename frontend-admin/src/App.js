@@ -7,6 +7,8 @@ import Login from './pages/Login';
 import Resetpassword from './pages/Resetpassword';
 import Forgotpassword from './pages/Forgotpassword';
 import Orders from './pages/Orders';
+import Customers from './pages/Customers';
+import Productlist from './pages/Productlist';
 
 
 function App() {
@@ -19,6 +21,8 @@ function App() {
         <Route path='/admin' element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path='orders' element={<Orders />} />
+          <Route path='customers' element={<Customers />} />
+          <Route path='product-list' element={<Productlist />} />
         </Route>
       </Routes>
     </Router>
