@@ -264,6 +264,26 @@ export const getProfile = asyncHandler(async (req, res) => {
 })
 
 /**************************************************
+ * @GET_All_USER
+ * @REQUEST_TYPE GET
+ * @route http://localhost:4000/api/auth/all-user
+ * @description Check all registred user
+ * @parameters 
+ * @returns User Object
+ **************************************************/
+
+export const getAllUser = asyncHandler(async (req, res) => {
+    const getUsers = await User.find().populate("wishlist")
+    if (!getUsers) {
+        throw new CustomError("Users not found", 404)
+    }
+    res.status(200).json({
+        success: true,
+        getUsers
+    })
+})
+
+/**************************************************
  * @CHANGE_PASSWORD
  * @route http://localhost:4000/api/auth/password/changepassword
  * @description User will be able to changed password, need to enter old correct password
