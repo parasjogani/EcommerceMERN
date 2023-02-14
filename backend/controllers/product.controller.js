@@ -92,10 +92,7 @@ export const getAllProducts = asyncHandler(async (req, res) => {
     if (!products) {
         throw new CustomError("Product was not found", 404)
     }
-    res.status(200).json({
-        success: true,
-        products
-    })
+    res.status(200).json(products)
 })
 
 /**********************************************

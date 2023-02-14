@@ -273,14 +273,11 @@ export const getProfile = asyncHandler(async (req, res) => {
  **************************************************/
 
 export const getAllUser = asyncHandler(async (req, res) => {
-    const getUsers = await User.find().populate("wishlist")
-    if (!getUsers) {
+    const getAllUsers = await User.find().populate("wishlist")
+    if (!getAllUsers) {
         throw new CustomError("Users not found", 404)
     }
-    res.status(200).json({
-        success: true,
-        getUsers
-    })
+    res.json(getAllUsers)
 })
 
 /**************************************************
