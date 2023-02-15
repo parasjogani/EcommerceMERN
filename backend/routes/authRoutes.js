@@ -9,7 +9,7 @@ router.post("/admin-login", adminLogin)
 router.post("/logout", isLoggedIn, logout)
 
 router.get("/profile", isLoggedIn, getProfile)
-router.get("/all-users", getAllUser)
+router.get("/all-users", isLoggedIn, isAdmin, getAllUser)
 router.get("/wishlist", isLoggedIn, getWishlist)
 router.put("/add-address", isLoggedIn, addAddress)
 router.post("/cart", isLoggedIn, userCart)

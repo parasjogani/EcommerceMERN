@@ -10,7 +10,7 @@ import CustomError from "../utils/customError.js"
  * @return collection
  **************************************************/
 export const createCollection = asyncHandler(async (req, res) => {
-    const {name} = req.body
+    const { name } = req.body
 
     if (!name) {
         throw new CustomError("Collection name is required", 400)
@@ -35,9 +35,9 @@ export const createCollection = asyncHandler(async (req, res) => {
  **************************************************/
 
 export const updateCollection = asyncHandler(async (req, res) => {
-    const {id: collectionId} = req.params
-    
-    const {name} = req.body
+    const { id: collectionId } = req.params
+
+    const { name } = req.body
 
     if (!name) {
         throw new CustomError("Collection name is required", 400)
@@ -56,7 +56,7 @@ export const updateCollection = asyncHandler(async (req, res) => {
 
     if (!updatedCollection) {
         throw new CustomError("Collection not found", 400)
-        
+
     }
 
     //send response to frontend
@@ -76,7 +76,7 @@ export const updateCollection = asyncHandler(async (req, res) => {
  **************************************************/
 
 export const deleteCollection = asyncHandler(async (req, res) => {
-    const {id: collectionId} = req.params
+    const { id: collectionId } = req.params
 
     const deletedCollection = await Collection.findByIdAndDelete(collectionId)
 
@@ -106,8 +106,7 @@ export const getCollection = asyncHandler(async (req, res) => {
         throw new CustomError("No collection found", 400)
     }
 
-    res.status(200).json({
-        success: true,
+    res.status(200).json(
         collections
-    })
+    )
 })

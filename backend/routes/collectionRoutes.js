@@ -7,7 +7,7 @@ const router = express.Router()
 router.post("/", isLoggedIn, isAdmin, createCollection)
 router.put("/:id", isLoggedIn, isAdmin, updateCollection)
 router.delete("/:id", isLoggedIn, isAdmin, deleteCollection)
-router.get("/", getCollection)
+router.get("/", isLoggedIn, isAdmin, getCollection)
 
 
 

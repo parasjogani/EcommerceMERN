@@ -92,8 +92,7 @@ export const getAllCoupons = asyncHandler(async (req, res) => {
 
     const allCoupon = await Coupon.find({})
 
-    res.status(200).json({
-        success: true,
+    res.status(200).json(
         allCoupon
-    })
+    )
 })
