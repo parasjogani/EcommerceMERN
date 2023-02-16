@@ -11,6 +11,8 @@ import Customers from './pages/Customers';
 import Product from './pages/Productlist';
 import Category from './pages/Categorylist'
 import Coupon from './pages/Couponlist';
+import Addproduct from './pages/Addproduct';
+import Addcategory from './pages/Addcategory';
 
 
 function App() {
@@ -27,6 +29,9 @@ function App() {
           <Route path='product-list' element={<Product />} />
           <Route path='category-list' element={<Category />} />
           <Route path='coupon-list' element={<Coupon />} />
+          <Route path='product' element={<Addproduct />} />
+          <Route path='category' element={<Addcategory />} />
+
         </Route>
       </Routes>
     </Router>

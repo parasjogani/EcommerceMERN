@@ -8,8 +8,15 @@ const getCategory = async () => {
     return response.data
 }
 
+const createCategory = async (categoryData) => {
+    const response = await axios.post(`${base_url}collection`, categoryData, config)
+
+    return response.data
+}
+
 const categoryService = {
-    getCategory
+    getCategory,
+    createCategory
 }
 
 export default categoryService
