@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit"
 import categoryService from "./categoryService"
 
 export const getCategory = createAsyncThunk(
@@ -21,6 +21,8 @@ export const createCategories = createAsyncThunk(
         }
     }
 )
+
+export const resetState = createAction("Reset_all")
 
 const initialState = {
     category: [],
@@ -58,7 +60,7 @@ export const categorySlice = createSlice({
                 state.isLoading = false
                 state.isError = false
                 state.isSuccess = true
-                state.category = action.payload
+                state.createdCategory = action.payload
             })
             .addCase(createCategories.rejected, (state, action) => {
                 state.isLoading = false
@@ -66,6 +68,7 @@ export const categorySlice = createSlice({
                 state.isSuccess = false
                 state.message = action.error
             })
+            .addCase(resetState, () => initialState)
     },
 })
 

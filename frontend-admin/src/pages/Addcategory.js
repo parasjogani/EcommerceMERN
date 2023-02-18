@@ -1,11 +1,10 @@
 import { React, useEffect } from "react";
 import CustomInput from "../components/CustomInput";
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import * as yup from "yup"
 import { useFormik } from "formik"
 import { useDispatch, useSelector } from "react-redux"
-import { createCategories } from "../features/category/categorySlice";
+import { createCategories, resetState } from "../features/category/categorySlice";
 
 let schema = yup.object().shape({
     name: yup.string().required("Name is Required"),
@@ -14,18 +13,16 @@ let schema = yup.object().shape({
 const Addcategory = () => {
     const dispatch = useDispatch();
     const newCategory = useSelector((state) => state.category);
-    const { isSuccess, isError, isLoading } = newCategory;
-    if (isSuccess) {
-        toast.success("Collection added Successfully")
-    }
+    const { isSuccess, isError, isLoading, createdCategory } = newCategory;
+
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess && createdCategory) {
             toast.success("Collection Added Successfullly!");
         }
         if (isError) {
             toast.error("Something Went Wrong!");
         }
-    }, [isSuccess, isError, isLoading]);
+    }, [isSuccess, isError, isLoading, createdCategory]);
 
     const formik = useFormik({
         initialValues: {
@@ -34,10 +31,10 @@ const Addcategory = () => {
         validationSchema: schema,
         onSubmit: (values) => {
             dispatch(createCategories(values));
-            // formik.resetForm();
-            // setTimeout(() => {
-            // dispatch(resetState());
-            // }, 3000);
+            formik.resetForm();
+            setTimeout(() => {
+                dispatch(resetState());
+            }, 3000)
         },
     });
 

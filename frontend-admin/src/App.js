@@ -13,6 +13,7 @@ import Category from './pages/Categorylist'
 import Coupon from './pages/Couponlist';
 import Addproduct from './pages/Addproduct';
 import Addcategory from './pages/Addcategory';
+import Addcoupon from './pages/Addcoupon';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route path='coupon-list' element={<Coupon />} />
           <Route path='product' element={<Addproduct />} />
           <Route path='category' element={<Addcategory />} />
+          <Route path='add-coupon' element={<Addcoupon />} />
 
         </Route>
       </Routes>

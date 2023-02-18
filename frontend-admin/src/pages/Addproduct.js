@@ -6,7 +6,7 @@ import { useFormik } from "formik"
 import { useDispatch, useSelector } from "react-redux"
 import { getCategory } from "../features/category/categorySlice"
 import Dropzone from "react-dropzone"
-import { createProducts } from "../features/product/productSlice"
+import { createProducts, resetState } from "../features/product/productSlice"
 import { MdAddAPhoto } from "react-icons/md"
 
 let schema = yup.object().shape({
@@ -15,10 +15,6 @@ let schema = yup.object().shape({
     description: yup.string().required("Description is Required"),
     collectionId: yup.string().required("Category is Required"),
     stock: yup.number().required("Quantity is Required"),
-    photos: yup.array()
-        .of(yup.string()
-            .url("Invalid Image URL")
-            .matches(/\.(jpeg|jpg|gif|png)$/i, "Invalid Image Type"))
 });
 
 const Addproduct = () => {
@@ -47,15 +43,15 @@ const Addproduct = () => {
 
     //To get created product
     const newProduct = useSelector((state) => state.product)
-    const { isSuccess, isError, isLoading } = newProduct;
+    const { isSuccess, isError, isLoading, createdProducts } = newProduct;
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess && createdProducts) {
             toast.success("Product Added Successfullly!");
         }
         if (isError) {
             toast.error("Something Went Wrong!");
         }
-    }, [isSuccess, isError, isLoading]);
+    }, [isSuccess, isError, isLoading, createdProducts]);
 
     const formik = useFormik({
         initialValues: {
@@ -80,10 +76,10 @@ const Addproduct = () => {
 
             dispatch(createProducts(productData));
 
-            // formik.resetForm();
-            // setTimeout(() => {
-            // dispatch(resetState());
-            // }, 3000);
+            formik.resetForm();
+            setTimeout(() => {
+                dispatch(resetState());
+            }, 3000);
         },
     });
 

@@ -13,6 +13,10 @@ const columns = [
         dataIndex: 'key',
     },
     {
+        title: 'Name',
+        dataIndex: 'name',
+    },
+    {
         title: 'Price',
         dataIndex: 'price',
     },

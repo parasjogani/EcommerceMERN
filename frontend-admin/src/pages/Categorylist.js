@@ -30,7 +30,6 @@ const Category = () => {
     }, [dispatch])
 
     const categorystate = useSelector((state) => state.category.category)
-    console.log(categorystate);
     const data1 = [];
     for (let i = 0; i < categorystate.length; i++) {
         data1.push({

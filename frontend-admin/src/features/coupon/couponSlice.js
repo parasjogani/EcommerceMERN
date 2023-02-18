@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit"
 import couponService from "./couponService"
 
 export const getCoupon = createAsyncThunk(
@@ -7,11 +7,23 @@ export const getCoupon = createAsyncThunk(
         try {
             return await couponService.getCoupon()
         } catch (error) {
-            console.log(error);
-            // return thunkAPI.rejectWithValue(error)
+            return thunkAPI.rejectWithValue(error)
         }
     }
 )
+
+export const createCoupons = createAsyncThunk(
+    'category/create-category',
+    async (categoryData, thunkAPI) => {
+        try {
+            return await couponService.createCoupon(categoryData)
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
+
+export const resetState = createAction("ResetState")
 
 const initialState = {
     coupon: [],
@@ -42,6 +54,22 @@ export const couponSlice = createSlice({
                 state.isSuccess = false
                 state.message = action.error
             })
+            .addCase(createCoupons.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(createCoupons.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.createdCoupon = action.payload
+            })
+            .addCase(createCoupons.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.isSuccess = false
+                state.message = action.error
+            })
+            .addCase(resetState, () => initialState)
     },
 })
 
