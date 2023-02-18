@@ -63,10 +63,9 @@ export const addProduct = asyncHandler(async (req, res) => {
             if (!product) {
                 throw new CustomError("Product was not created", 400)
             }
-            res.status(200).json({
-                success: true,
+            res.status(200).json(
                 product
-            })
+            )
 
         } catch (error) {
             return res.status(500).json({
@@ -153,6 +152,10 @@ export const updateProduct = asyncHandler(async (req, res) => {
 export const deleteProduct = asyncHandler(async (req, res) => {
     const { id } = req.params
     const deletedProduct = await Product.findByIdAndDelete(id)
+    const deletephoto = await s3FileDelete({
+        bucketName: config.S3_BUCKET_NAME,
+        key: `products/${id}/photo_1.png`
+    })
 
     if (!deletedProduct) {
         throw new CustomError("Product not found", 400)
@@ -161,7 +164,7 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     res.status(200).json({
         success: true,
         message: "Product deleted successfully",
-        deletedProduct
+        deletedProduct,
     })
 
 })
