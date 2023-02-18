@@ -12,6 +12,17 @@ export const getProducts = createAsyncThunk(
     }
 )
 
+export const createProducts = createAsyncThunk(
+    'products/create-products',
+    async (productData, thunkAPI) => {
+        try {
+            return await productService.createProduct(productData)
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
+
 const initialState = {
     products: [],
     isError: false,
@@ -21,7 +32,7 @@ const initialState = {
 }
 
 export const productSlice = createSlice({
-    name: "users",
+    name: "products",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -36,6 +47,22 @@ export const productSlice = createSlice({
                 state.products = action.payload
             })
             .addCase(getProducts.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.isSuccess = false
+                state.message = action.error
+            })
+
+            .addCase(createProducts.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(createProducts.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.createdProducts = action.payload
+            })
+            .addCase(createProducts.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.isSuccess = false
