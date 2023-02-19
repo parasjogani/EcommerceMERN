@@ -19,11 +19,7 @@ export const createCollection = asyncHandler(async (req, res) => {
     const collection = await Collection.create({
         name
     })
-    res.status(200).json({
-        success: true,
-        message: "Collection created successfully",
-        collection
-    })
+    res.status(200).json(collection)
 })
 
 /**************************************************
@@ -92,7 +88,7 @@ export const deleteCollection = asyncHandler(async (req, res) => {
 })
 
 /**************************************************
- * @Get_Collection
+ * @Get_Collections
  * @route http://localhost:4000/api/collection
  * @description User and admin can get all collection
  * @parameters 
@@ -108,5 +104,26 @@ export const getCollection = asyncHandler(async (req, res) => {
 
     res.status(200).json(
         collections
+    )
+})
+
+/**************************************************
+ * @Get_A_Collections
+ * @route http://localhost:4000/api/collection/:id
+ * @description User and admin can get single collection
+ * @parameters collection id
+ * @return collection
+ **************************************************/
+
+export const getACollection = asyncHandler(async (req, res) => {
+    const { id } = req.params
+    const collection = await Collection.findById(id)
+
+    if (!collection) {
+        throw new CustomError("No collection found", 400)
+    }
+
+    res.status(200).json(
+        collection
     )
 })
