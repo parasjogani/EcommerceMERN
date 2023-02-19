@@ -24,12 +24,18 @@ const getOneCategory = async (id) => {
 
     return response.data
 }
+const deleteCategory = async (id) => {
+    const response = await axios.delete(`${base_url}collection/${id}`, config)
+
+    return response.data
+}
 
 const categoryService = {
     getCategory,
     createCategory,
     getOneCategory,
-    updateCategory
+    updateCategory,
+    deleteCategory
 }
 
 export default categoryService

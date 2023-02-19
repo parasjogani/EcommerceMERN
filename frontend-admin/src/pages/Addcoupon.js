@@ -27,7 +27,7 @@ const Addcoupon = () => {
 
     const formik = useFormik({
         initialValues: {
-            name: "",
+            code: "",
             discount: "",
         },
         validationSchema: schema,
@@ -36,7 +36,7 @@ const Addcoupon = () => {
             formik.resetForm();
             setTimeout(() => {
                 dispatch(resetState());
-            }, 3000);
+            }, 200);
         },
     });
 

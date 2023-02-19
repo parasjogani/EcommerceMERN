@@ -38,7 +38,6 @@ const Coupon = () => {
     }, [dispatch])
 
     const couponstate = useSelector((state) => state.coupon.coupon)
-    console.log(couponstate);
     const data1 = [];
     for (let i = 0; i < couponstate.length; i++) {
         data1.push({
