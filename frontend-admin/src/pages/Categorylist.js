@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategory } from '../features/category/categorySlice'
+import { getCategory, resetState } from '../features/category/categorySlice'
 import { Link } from 'react-router-dom';
 import { BiEdit } from 'react-icons/bi';
 import { AiFillDelete } from 'react-icons/ai';
@@ -26,6 +26,7 @@ const columns = [
 const Category = () => {
     const dispatch = useDispatch()
     useEffect(() => {
+        dispatch(resetState())
         dispatch(getCategory())
     }, [dispatch])
 
@@ -37,7 +38,7 @@ const Category = () => {
             name: `${categorystate[i].name}`,
             action: (
                 <>
-                    <Link className="fs-3 text-success">
+                    <Link to={`/admin/category/${categorystate[i]._id}`} className="fs-3 text-success">
                         <BiEdit />
                     </Link>
                     <Link className="ms-3 fs-3 text-danger">

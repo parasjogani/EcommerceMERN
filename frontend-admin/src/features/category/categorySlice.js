@@ -11,11 +11,31 @@ export const getCategory = createAsyncThunk(
         }
     }
 )
+export const getACategory = createAsyncThunk(
+    'category/get-a-category',
+    async (id, thunkAPI) => {
+        try {
+            return await categoryService.getOneCategory(id)
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
 export const createCategories = createAsyncThunk(
     'category/create-category',
     async (categoryData, thunkAPI) => {
         try {
             return await categoryService.createCategory(categoryData)
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error)
+        }
+    }
+)
+export const updateCategories = createAsyncThunk(
+    'category/update-category',
+    async (categoryData, thunkAPI) => {
+        try {
+            return await categoryService.updateCategory(categoryData)
         } catch (error) {
             return thunkAPI.rejectWithValue(error)
         }
@@ -63,6 +83,36 @@ export const categorySlice = createSlice({
                 state.createdCategory = action.payload
             })
             .addCase(createCategories.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.isSuccess = false
+                state.message = action.error
+            })
+            .addCase(getACategory.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getACategory.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.categoryName = action.payload.name
+            })
+            .addCase(getACategory.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.isSuccess = false
+                state.message = action.error
+            })
+            .addCase(updateCategories.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(updateCategories.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.updatedCategory = action.payload
+            })
+            .addCase(updateCategories.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.isSuccess = false

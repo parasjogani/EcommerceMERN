@@ -13,10 +13,23 @@ const createCategory = async (categoryData) => {
 
     return response.data
 }
+const updateCategory = async (categoryData) => {
+    const response = await axios.put(`${base_url}collection/${categoryData.id}`, { name: categoryData.categoryData.name }, config)
+
+    return response.data
+}
+
+const getOneCategory = async (id) => {
+    const response = await axios.get(`${base_url}collection/${id}`, config)
+
+    return response.data
+}
 
 const categoryService = {
     getCategory,
-    createCategory
+    createCategory,
+    getOneCategory,
+    updateCategory
 }
 
 export default categoryService
