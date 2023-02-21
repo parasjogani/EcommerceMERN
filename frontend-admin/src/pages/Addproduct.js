@@ -174,6 +174,7 @@ const Addproduct = () => {
                                         <p>
                                             Drag 'n' drop some images here, or click to select images
                                         </p>
+                                        <p>(images size shoould not be more than 500kb)</p>
                                     </div>
                                 </section>
                             )}

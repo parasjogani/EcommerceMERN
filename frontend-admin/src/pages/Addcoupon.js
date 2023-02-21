@@ -15,7 +15,7 @@ const Addcoupon = () => {
     const dispatch = useDispatch();
     const newCoupon = useSelector((state) => state.coupon);
     const { isSuccess, isError, isLoading, createdCoupon } = newCoupon;
-    
+
     useEffect(() => {
         if (isSuccess && createdCoupon) {
             toast.success("Coupon Added Successfullly!");
@@ -26,6 +26,7 @@ const Addcoupon = () => {
     }, [isSuccess, isError, isLoading, createdCoupon]);
 
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
             code: "",
             discount: "",

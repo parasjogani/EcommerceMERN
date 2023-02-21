@@ -12,15 +12,22 @@ const createProduct = async (productData) => {
     const response = await axios.post(`${base_url}product`, productData, config, {
         headers: {
             'Content-Type': 'multipart/form-data',
-          },
+        },
     })
+
+    return response.data
+}
+
+const deleteProduct = async (id) => {
+    const response = await axios.delete(`${base_url}product/${id}`, config)
 
     return response.data
 }
 
 const productService = {
     getProducts,
-    createProduct
+    createProduct,
+    deleteProduct
 }
 
 export default productService

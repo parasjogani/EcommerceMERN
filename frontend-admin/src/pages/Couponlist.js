@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { BiEdit } from 'react-icons/bi';
-import { AiFillDelete } from 'react-icons/ai';
-import { getCoupon } from '../features/coupon/couponSlice';
+import { AiFillDelete, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { getAllCoupon, deleteCoupons, toggledCoupon } from '../features/coupon/couponSlice';
+import CustomModal from '../components/CustomModal';
 
 
 const columns = [
@@ -32,9 +31,20 @@ const columns = [
 
 
 const Coupon = () => {
+    const [open, setOpen] = useState(false);
+    const [couponId, setcouponId] = useState("")
+
+    const showModal = (e) => {
+        setOpen(true);
+        setcouponId(e)
+    };
+    const hideModal = () => {
+        setOpen(false);
+    }
+
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(getCoupon())
+        dispatch(getAllCoupon())
     }, [dispatch])
 
     const couponstate = useSelector((state) => state.coupon.coupon)
@@ -47,15 +57,40 @@ const Coupon = () => {
             active: `${couponstate[i].active}`,
             action: (
                 <>
-                    <Link className="fs-3 text-success">
-                        <BiEdit />
-                    </Link>
-                    <Link className="ms-3 fs-3 text-danger">
+                    {couponstate[i].active ?
+                        <button className="fs-3 text-primary bg-transparent border-0"
+                            onClick={() => deactivateCoupon(couponstate[i]._id)}>
+                            <AiFillEye />
+                        </button>
+                        :
+                        <button className="fs-3 text-primary bg-transparent border-0"
+                            onClick={() => deactivateCoupon(couponstate[i]._id)}>
+                            <AiFillEyeInvisible />
+                        </button>
+                    }
+                    <button
+                        className="ms-3 fs-3 text-danger bg-transparent border-0"
+                        onClick={() => showModal(couponstate[i]._id)}>
                         <AiFillDelete />
-                    </Link>
+                    </button>
                 </>
             )
         });
+    }
+
+    const deleteCoupon = (e) => {
+        dispatch(deleteCoupons(e))
+        setTimeout(() => {
+            dispatch(getAllCoupon())
+        }, 500)
+        setOpen(false)
+    }
+
+    const deactivateCoupon = (e) => {
+        dispatch(toggledCoupon(e))
+        setTimeout(() => {
+            dispatch(getAllCoupon())
+        }, 200)
     }
     return (
         <div>
@@ -64,6 +99,14 @@ const Coupon = () => {
                 <Table columns={columns} dataSource={data1} />
 
             </div>
+
+            <CustomModal
+                hideModal={hideModal}
+                open={open}
+                performAction={() => {
+                    deleteCoupon(couponId)
+                }}
+                title="Are you sure you want to delete?" />
 
         </div>
     )
