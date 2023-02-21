@@ -4,9 +4,9 @@ import CustomError from "../utils/customError.js"
 
 /**********************************************************
  * @CREATE_COUPON
- * @route https://localhost:5000/api/coupon
+ * @route https://localhost:4000/api/coupon
  * @description Controller used for creating a new coupon
- * @description Only admin and Moderator can create the coupon
+ * @description Only admin can create the coupon
  * @returns Coupon Object with success message "Coupon Created SuccessFully"
  *********************************************************/
 
@@ -35,36 +35,50 @@ export const createCoupon = asyncHandler(async (req, res) => {
 })
 
 /**********************************************************
+ * @GET_A_COUPON
+ * @route https://localhost:4000/api/coupon/:id
+ * @description Controller used for getting single coupon details
+ * @description Only admin can get One coupons
+ * @returns Coupon Object
+ *********************************************************/
+
+export const getCoupon = asyncHandler(async (req, res) => {
+    const { id } = req.params
+    const getACoupon = await Coupon.findById(id)
+
+    res.status(200).json(
+        getACoupon
+    )
+})
+
+/**********************************************************
  * @DEACTIVATE_COUPON
- * @route https://localhost:5000/api/coupon/deactive/:couponId
+ * @route https://localhost:4000/api/coupon/deactive/:id
  * @description Controller used for deactivating the coupon
- * @description Only admin and Moderator can update the coupon
+ * @description Only admin can update the coupon
  * @returns Coupon Object with success message "Coupon Deactivated SuccessFully"
  *********************************************************/
 
 export const deactivateCoupon = asyncHandler(async (req, res) => {
     const { id } = req.params
 
-    const deactivatedCoupon = await Coupon.findByIdAndUpdate(id, {
-        active: false
-    },
-        {
-            new: true
-        }
-    )
+    const coupon = await Coupon.findById(id)
+    if (!coupon) {
+        throw new CustomError("Coupon not found", 400)
+    }
 
-    res.status(200).json({
-        success: true,
-        message: "Coupon deactivated successfully",
-        deactivatedCoupon
-    })
+    coupon.active = !coupon.active
+
+    const toggledCoupon = await coupon.save()
+
+    res.status(200).json(toggledCoupon)
 })
 
 /**********************************************************
  * @DELETE_COUPON
- * @route https://localhost:5000/api/coupon/:couponId
+ * @route https://localhost:4000/api/coupon/:couponId
  * @description Controller used for deleting the coupon
- * @description Only admin and Moderator can delete the coupon
+ * @description Only admin can delete the coupon
  * @returns Success Message "Coupon Deleted SuccessFully"
  *********************************************************/
 
@@ -82,9 +96,9 @@ export const deleteCoupon = asyncHandler(async (req, res) => {
 
 /**********************************************************
  * @GET_ALL_COUPONS
- * @route https://localhost:5000/api/coupon
+ * @route https://localhost:4000/api/coupon
  * @description Controller used for getting all coupons details
- * @description Only admin and Moderator can get all the coupons
+ * @description Only admin can get all the coupons
  * @returns allCoupons Object
  *********************************************************/
 

@@ -56,11 +56,9 @@ export const updateCollection = asyncHandler(async (req, res) => {
     }
 
     //send response to frontend
-    res.status(200).json({
-        success: true,
-        message: "Collection updated successfully",
+    res.status(200).json(
         updatedCollection
-    })
+    )
 })
 
 /**************************************************
