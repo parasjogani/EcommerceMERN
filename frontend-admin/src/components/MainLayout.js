@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Layout, Menu, theme } from 'antd';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import { AiOutlineDashboard, AiOutlineSetting, AiOutlineUser, AiOutlineUnorderedList, AiOutlineShoppingCart } from 'react-icons/ai'
 import { BiCategory } from 'react-icons/bi'
 import { RiCoupon3Line } from 'react-icons/ri'
 import { FaUserAlt } from 'react-icons/fa'
+import { IoIosArrowDropdown } from 'react-icons/io'
 const { Header, Sider, Content } = Layout;
 
 const MainLayout = () => {
@@ -115,19 +116,53 @@ const MainLayout = () => {
             background: colorBgContainer,
           }}
         >
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: () => setCollapsed(!collapsed),
-          })}
-          <div className="d-flex align-items-center gap-3">
-            <div></div>
-            <div className="d-flex align-items-center gap-3">
-              <div>
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: "trigger",
+              onClick: () => setCollapsed(!collapsed),
+            }
+          )}
+          <div className="d-flex gap-4 align-items-center">
+            <div className="d-flex gap-3 align-items-center dropdown">
+              <div className='fs-5'>
                 <FaUserAlt />
               </div>
-              <div>
-                <h5 className="mb-0">Paras Jogani</h5>
-                <p className="mb-0">paras12345@gmail.com</p>
+              <div
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                className='d-flex align-items-center gap-2'
+              >
+                <div>
+                  <h5 className="mb-0">Paras Jogani</h5>
+                  <p className="mb-0">paras1234@gmail.com</p>
+                </div>
+                <div className='flex fs-5'>
+                  <IoIosArrowDropdown />
+                </div>
+              </div>
+
+              <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li>
+                  <Link
+                    className="dropdown-item py-1 mb-1"
+                    style={{ height: "auto", lineHeight: "20px" }}
+                    to="/"
+                  >
+                    View Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="dropdown-item py-1 mb-1"
+                    style={{ height: "auto", lineHeight: "20px" }}
+                    to="/"
+                  >
+                    Signout
+                  </Link>
+                </li>
               </div>
             </div>
           </div>
