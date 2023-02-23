@@ -32,7 +32,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate("admin")
+      navigate("dashboard")
     } else {
       navigate("")
     }
@@ -69,7 +69,7 @@ const Login = () => {
             ) : null}
           </div>
           <div className="text-end mt-2">
-            <Link to="/forgot-password">Forgot Password</Link>
+            <Link to="/admin/forgot-password">Forgot Password</Link>
           </div>
           <button
             className="border-0 px-3 py-2 text-white fw-bold w-100 mt-2 text-center text-decoration-none fs-5"

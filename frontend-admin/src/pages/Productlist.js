@@ -7,6 +7,7 @@ import { BiEdit } from 'react-icons/bi';
 import { AiFillDelete } from 'react-icons/ai';
 import CustomModal from '../components/CustomModal';
 import { getCategory } from '../features/category/categorySlice';
+import PageAuth from '../components/PageAuth';
 
 
 const columns = [
@@ -44,7 +45,7 @@ const columns = [
 ];
 
 
-const Customers = () => {
+const Productlist = () => {
     const [open, setOpen] = useState(false);
     const [productId, setproductId] = useState("")
 
@@ -119,4 +120,4 @@ const Customers = () => {
     )
 }
 
-export default Customers
+export default PageAuth(Productlist)

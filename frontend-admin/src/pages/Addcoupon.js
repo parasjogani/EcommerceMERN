@@ -5,6 +5,8 @@ import * as yup from "yup"
 import { useFormik } from "formik"
 import { useDispatch, useSelector } from "react-redux"
 import { createCoupons, resetState } from "../features/coupon/couponSlice";
+import PageAuth from '../components/PageAuth';
+
 
 let schema = yup.object().shape({
     code: yup.string().required("Name is Required"),
@@ -85,4 +87,4 @@ const Addcoupon = () => {
     );
 };
 
-export default Addcoupon;
+export default PageAuth(Addcoupon)

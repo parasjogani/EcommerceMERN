@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table } from 'antd';
+import PageAuth from '../components/PageAuth';
 
 //Recent Order Table Start
 const columns = [
@@ -80,4 +81,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default PageAuth(Dashboard)

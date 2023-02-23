@@ -42,7 +42,7 @@ const MainLayout = () => {
           }}
           items={[
             {
-              key: '',
+              key: 'dashboard',
               icon: <AiOutlineDashboard className="fs-4" />,
               label: 'Dashboard',
             },

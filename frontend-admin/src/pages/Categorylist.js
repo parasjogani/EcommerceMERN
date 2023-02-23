@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { BiEdit } from 'react-icons/bi';
 import { AiFillDelete } from 'react-icons/ai';
 import CustomModal from '../components/CustomModal';
+import PageAuth from '../components/PageAuth';
 
 
 const columns = [
@@ -91,4 +92,4 @@ const Category = () => {
 }
 
 
-export default Category
+export default PageAuth(Category)

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Table } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers } from '../features/customers/customerSlice'
+import PageAuth from '../components/PageAuth';
 
 
 const columns = [
@@ -55,4 +56,4 @@ const Customers = () => {
     )
 }
 
-export default Customers
+export default PageAuth(Customers)

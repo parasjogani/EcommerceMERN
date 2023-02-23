@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AiFillDelete, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { getAllCoupon, deleteCoupons, toggledCoupon } from '../features/coupon/couponSlice';
 import CustomModal from '../components/CustomModal';
+import PageAuth from '../components/PageAuth';
 
 
 const columns = [
@@ -112,4 +113,4 @@ const Coupon = () => {
     )
 }
 
-export default Coupon
+export default PageAuth(Coupon)

@@ -8,6 +8,8 @@ import { getCategory } from "../features/category/categorySlice"
 import Dropzone from "react-dropzone"
 import { createProducts, resetState } from "../features/product/productSlice"
 import { MdAddAPhoto } from "react-icons/md"
+import PageAuth from '../components/PageAuth';
+
 
 let schema = yup.object().shape({
     name: yup.string().required("Name is Required"),
@@ -195,4 +197,4 @@ const Addproduct = () => {
     );
 };
 
-export default Addproduct;
+export default PageAuth(Addproduct)

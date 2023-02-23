@@ -6,6 +6,8 @@ import { useFormik } from "formik"
 import { useDispatch, useSelector } from "react-redux"
 import { createCategories, getACategory, resetState, updateCategories } from "../features/category/categorySlice";
 import { useLocation, useNavigate } from "react-router-dom";
+import PageAuth from '../components/PageAuth';
+
 
 let schema = yup.object().shape({
     name: yup.string().required("Name is Required"),
@@ -94,4 +96,4 @@ const Addcategory = () => {
     );
 };
 
-export default Addcategory;
+export default PageAuth(Addcategory)

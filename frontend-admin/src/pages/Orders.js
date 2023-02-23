@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table } from 'antd';
+import PageAuth from '../components/PageAuth';
 
 
 const columns = [
@@ -48,4 +49,4 @@ const Orders = () => {
   )
 }
 
-export default Orders
+export default PageAuth(Orders)
