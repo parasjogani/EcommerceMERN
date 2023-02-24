@@ -21,6 +21,9 @@ const MainLayout = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate()
+
+
+
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -42,7 +45,7 @@ const MainLayout = () => {
           }}
           items={[
             {
-              key: 'dashboard',
+              key: '',
               icon: <AiOutlineDashboard className="fs-4" />,
               label: 'Dashboard',
             },
@@ -136,8 +139,8 @@ const MainLayout = () => {
                 className='d-flex align-items-center gap-2'
               >
                 <div>
-                  <h5 className="mb-0">Paras Jogani</h5>
-                  <p className="mb-0">paras1234@gmail.com</p>
+                  <h5 className="mb-0">paras jogani</h5>
+                  <p className="mb-0">paras12345@g.com</p>
                 </div>
                 <div className='flex fs-5'>
                   <IoIosArrowDropdown />
@@ -158,9 +161,12 @@ const MainLayout = () => {
                   <Link
                     className="dropdown-item py-1 mb-1"
                     style={{ height: "auto", lineHeight: "20px" }}
+                    onClick={() => {
+                      localStorage.removeItem('user');
+                    }}
                     to="/"
                   >
-                    Signout
+                    Logout
                   </Link>
                 </li>
               </div>

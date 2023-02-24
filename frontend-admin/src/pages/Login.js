@@ -5,6 +5,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../features/auth/authSlice'
+import PageAuth from '../components/PageAuth'
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -32,7 +33,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      navigate("dashboard")
+      navigate("admin")
     } else {
       navigate("")
     }
@@ -84,4 +85,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default PageAuth(Login)

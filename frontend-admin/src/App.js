@@ -20,11 +20,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/admin' element={<Login />} />
-        <Route path='/admin/reset-password' element={<Resetpassword />} />
-        <Route path='/admin/forgot-password' element={<Forgotpassword />} />
+        <Route path='/' element={<Login />} />
+        <Route path='/reset-password' element={<Resetpassword />} />
+        <Route path='/forgot-password' element={<Forgotpassword />} />
         <Route path='/admin' element={<MainLayout />}>
-          <Route path='dashboard' element={<Dashboard />} />
+          <Route index element={<Dashboard />} />
           <Route path='orders' element={<Orders />} />
           <Route path='customers' element={<Customers />} />
           <Route path='product-list' element={<Product />} />

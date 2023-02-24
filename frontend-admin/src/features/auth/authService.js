@@ -7,7 +7,7 @@ const login = async (userData) => {
         localStorage.setItem("user", JSON.stringify(response.data))
     }
     return response.data
-}
+    }
 
 const authService = {
     login

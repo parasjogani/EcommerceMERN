@@ -8,7 +8,7 @@ const PageAuth = (WrappedComponent) => {
     useEffect(() => {
       const token = localStorage.getItem('user');
       if (!token) {
-        navigate('/admin');
+        navigate('/');
       }
     }, [navigate]);
 
