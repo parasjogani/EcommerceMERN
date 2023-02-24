@@ -124,22 +124,66 @@ export const getProductById = asyncHandler(async (req, res) => {
  **********************************************/
 
 export const updateProduct = asyncHandler(async (req, res) => {
-    const { id } = req.params
-    const updateProduct = await Product.findByIdAndUpdate(id, req.body, {
-        new: true
+    const form = formidable({
+        multiples: true,
+        keepExtensions: true
     })
 
-    if (!updateProduct) {
-        throw new CustomError("Product not found", 400)
-    }
+    form.parse(req, async function (err, fields, files) {
+        try {
+            if (err) {
+                throw new CustomError("Something went wrong", 500)
+            }
+            const productId = req.params.productId
 
-    res.status(200).json({
-        success: true,
-        message: "Product updated successfully",
-        updateProduct
+            const product = await Product.findById(productId)
+
+            if (!product) {
+                throw new CustomError("Product not found", 404)
+            }
+
+            // update product details
+            product.name = fields.name || product.name
+            product.price = fields.price || product.price
+            product.description = fields.description || product.description
+            product.collectionId = fields.collectionId || product.collectionId
+
+            // update product images
+            if (files) {
+                let imgArrayResp = Promise.all(
+                    Object.keys(files).map(async (filekey, index) => {
+                        const element = files[filekey]
+
+                        const data = fs.readFileSync(element.filepath)
+
+                        const upload = await s3FileUpload({
+                            bucketName: config.S3_BUCKET_NAME,
+                            key: `products/${productId}/photo_${index + 1}.png`,
+                            body: data,
+                            contentType: element.mimetype
+                        })
+                        return {
+                            secure_url: upload.Location
+                        }
+                    })
+                )
+                let imgArray = await imgArrayResp;
+                product.photos = imgArray
+            }
+
+            const updatedProduct = await product.save()
+
+            res.status(200).json(updatedProduct)
+
+        } catch (error) {
+            return res.status(error.status || 500).json({
+                success: false,
+                message: error.message || "Something went wrong"
+            })
+        }
     })
-
 })
+
 
 /**********************************************
  * @DELETE_PRODUCT

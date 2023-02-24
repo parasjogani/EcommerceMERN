@@ -8,7 +8,7 @@ router.post("/", isLoggedIn, isAdmin, addProduct)
 router.get("/:id", getProductById)
 router.get("/", getAllProducts)
 router.put("/wishlist", isLoggedIn, wishlistProduct)
-router.put("/:id", isLoggedIn, isAdmin, updateProduct)
+router.post("/:id", isLoggedIn, isAdmin, updateProduct)
 router.delete("/:id", isLoggedIn, isAdmin, deleteProduct)
 
 export default router
