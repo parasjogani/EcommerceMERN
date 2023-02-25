@@ -1,37 +1,11 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
-// import compare from "../images/compare.svg";
-import { BiGitCompare } from "react-icons/bi"
-// import wishlist from "../images/wishlist.svg";
 import { TbJewishStar } from "react-icons/tb"
-// import user from "../images/user.svg";
 import { FaUserAlt, FaShoppingCart } from "react-icons/fa"
-// import cart from "../images/cart.svg";
-// import menu from "../images/menu.svg";
-import { AiOutlineMenuUnfold } from "react-icons/ai"
 const Header = () => {
     return (
         <>
-            <header className="header-top-strip py-3">
-                <div className="container-xxl">
-                    <div className="row">
-                        <div className="col-6">
-                            <p className="text-white mb-0">
-                                Free Shipping Over $100 & Free Returns
-                            </p>
-                        </div>
-                        <div className="col-6">
-                            <p className="text-end text-white mb-0">
-                                Hotline:
-                                <a className="text-white" href="tel:+91 8264954234">
-                                    +91 8264954234
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </header>
             <header className="header-upper py-3">
                 <div className="container-xxl">
                     <div className="row align-items-center">
@@ -40,7 +14,7 @@ const Header = () => {
                                 <Link className="text-white">Dev Corner</Link>
                             </h2>
                         </div>
-                        <div className="col-5">
+                        <div className="col-6">
                             <div className="input-group">
                                 <input
                                     type="text"
@@ -54,27 +28,16 @@ const Header = () => {
                                 </span>
                             </div>
                         </div>
-                        <div className="col-5">
+                        <div className="col-4">
                             <div className="header-upper-links d-flex align-items-center justify-content-between">
-                                <div>
-                                    <Link
-                                        to="/compare-product"
-                                        className="d-flex align-items-center gap-10 text-white"
-                                    >
-                                        <BiGitCompare />
-                                        <p className="mb-0">
-                                            Compare <br /> Products
-                                        </p>
-                                    </Link>
-                                </div>
                                 <div>
                                     <Link
                                         to="/wishlist"
                                         className="d-flex align-items-center gap-10 text-white"
                                     >
-                                        <TbJewishStar />
+                                        <TbJewishStar className="fs-3" />
                                         <p className="mb-0">
-                                            Favourite <br /> wishlist
+                                            Your <br /> wishlist
                                         </p>
                                     </Link>
                                 </div>
@@ -83,7 +46,7 @@ const Header = () => {
                                         to="/login"
                                         className="d-flex align-items-center gap-10 text-white"
                                     >
-                                        <FaUserAlt />
+                                        <FaUserAlt className="fs-3"/>
                                         <p className="mb-0">
                                             Log in <br /> My Account
                                         </p>
@@ -94,7 +57,7 @@ const Header = () => {
                                         to="/cart"
                                         className="d-flex align-items-center gap-10 text-white"
                                     >
-                                        <FaShoppingCart />
+                                        <FaShoppingCart className="fs-3"/>
                                         <div className="d-flex flex-column gap-10">
                                             <span className="badge bg-white text-dark">0</span>
                                             <p className="mb-0">$ 500</p>
@@ -120,7 +83,6 @@ const Header = () => {
                                             data-bs-toggle="dropdown"
                                             aria-expanded="false"
                                         >
-                                            <AiOutlineMenuUnfold />
                                             <span className="me-5 d-inline-block">
                                                 Shop Categories
                                             </span>
@@ -151,7 +113,6 @@ const Header = () => {
                                     <div className="d-flex align-items-center gap-15">
                                         <NavLink to="/">Home</NavLink>
                                         <NavLink to="/product">Our Store</NavLink>
-                                        <NavLink to="/blogs">Blogs</NavLink>
                                         <NavLink to="/contact">Contact</NavLink>
                                     </div>
                                 </div>

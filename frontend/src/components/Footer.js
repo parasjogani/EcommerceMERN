@@ -10,8 +10,8 @@ const Footer = () => {
                     <div className="row align-items-center">
                         <div className="col-5">
                             <div className="footer-top-data d-flex gap-30 align-items-center">
-                                <FaRegNewspaper />
-                                <h2 className="mb-0 text-white">Sign Up for Newsletter</h2>
+                                <span className="fs-3 text-white"><FaRegNewspaper /></span>
+                                <h3 className="mb-0 text-white">Sign Up for Newsletter</h3>
                             </div>
                         </div>
                         <div className="col-7">
@@ -54,16 +54,16 @@ const Footer = () => {
                                     navdeepdahiya753@gmail.com
                                 </a>
                                 <div className="social_icons d-flex align-items-center gap-30 mt-4">
-                                    <a className="text-white" href="#">
+                                    <a className="text-white" href="linkedin.com">
                                         <BsLinkedin className="fs-4" />
                                     </a>
-                                    <a className="text-white" href="#">
+                                    <a className="text-white" href="instragram.com">
                                         <BsInstagram className="fs-4" />
                                     </a>
-                                    <a className="text-white" href="#">
+                                    <a className="text-white" href="github.com">
                                         <BsGithub className="fs-4" />
                                     </a>
-                                    <a className="text-white" href="#">
+                                    <a className="text-white" href="youtube.com">
                                         <BsYoutube className="fs-4" />
                                     </a>
                                 </div>
