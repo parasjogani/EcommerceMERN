@@ -10,9 +10,9 @@ const Header = () => {
                 <div className="container-xxl">
                     <div className="row align-items-center">
                         <div className="col-2">
-                            <h2>
-                                <Link className="text-white">Dev Corner</Link>
-                            </h2>
+                            <div className="header-upper-logo">
+                                <img src="https://ecommercemern.s3.ap-south-1.amazonaws.com/images/shopsparrow-removebg-preview.ico" className="logo" alt="" />
+                            </div>
                         </div>
                         <div className="col-6">
                             <div className="input-group">
@@ -46,7 +46,7 @@ const Header = () => {
                                         to="/login"
                                         className="d-flex align-items-center gap-10 text-white"
                                     >
-                                        <FaUserAlt className="fs-3"/>
+                                        <FaUserAlt className="fs-3" />
                                         <p className="mb-0">
                                             Log in <br /> My Account
                                         </p>
@@ -57,7 +57,7 @@ const Header = () => {
                                         to="/cart"
                                         className="d-flex align-items-center gap-10 text-white"
                                     >
-                                        <FaShoppingCart className="fs-3"/>
+                                        <FaShoppingCart className="fs-3" />
                                         <div className="d-flex flex-column gap-10">
                                             <span className="badge bg-white text-dark">0</span>
                                             <p className="mb-0">$ 500</p>
