@@ -30,7 +30,6 @@ const ProductCard = (productstate, props) => {
           </div>
           <div className="product-image">
             <img src={productstate.product.photos[0].secure_url} className="" alt="product image" />
-            {/* <img src={productstate.product.photos[0].secure_url} className="" alt="product image" /> */}
           </div>
           <div className="product-details">
             <h5 className="product-title">

@@ -317,6 +317,10 @@ footer .input-group-text {
   fill: #353434;
 }
 
+.cross-icon {
+  fill: #ff0000;
+}
+
 /* Product Card ends here */
 
 /*  auth card */
