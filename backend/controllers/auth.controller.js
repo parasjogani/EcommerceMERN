@@ -169,7 +169,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     await user.save({ validateBeforeSave: false })
 
     const resetUrl =
-        `${req.protocol}://${req.get("host")}/api/auth/password/reset/${resetToken}`
+        `${req.protocol}://${req.get("host")}/reset-password/${resetToken}`
 
     const text = `Tap the below link to reset your password
     \n\n ${resetUrl}\n\n

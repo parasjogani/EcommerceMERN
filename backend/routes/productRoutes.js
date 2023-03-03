@@ -7,7 +7,7 @@ import { isAdmin, isLoggedIn } from "../middlewares/auth.middleware.js"
 router.post("/", isLoggedIn, isAdmin, addProduct)
 router.get("/:id", getProductById)
 router.get("/", getAllProducts)
-router.put("/wishlist", isLoggedIn, wishlistProduct)
+router.post("/wishlist", isLoggedIn, wishlistProduct)
 router.post("/:id", isLoggedIn, isAdmin, updateProduct)
 router.delete("/:id", isLoggedIn, isAdmin, deleteProduct)
 
