@@ -4,7 +4,7 @@ import Meta from "../components/Meta";
 import ProductCard from "../components/Productcard";
 import Container from "../components/Container";
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from "../features/ourstore/storeSlice";
+import { getProducts, resetState } from "../features/ourstore/storeSlice";
 
 const OurStore = () => {
   const [grid, setGrid] = useState(4);
@@ -12,10 +12,12 @@ const OurStore = () => {
 
   const dispatch = useDispatch()
   useEffect(() => {
+    dispatch(resetState())
     dispatch(getProducts())
   }, [dispatch])
 
   const productstate = useSelector((state) => state.ourstore.products)
+
   return (
     <>
       <Meta title={"Our Store"} />

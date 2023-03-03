@@ -3,11 +3,19 @@ import { Link, useLocation } from "react-router-dom";
 import { FcBookmark } from "react-icons/fc"
 import { AiOutlineEye } from "react-icons/ai"
 import { MdOutlineAddShoppingCart } from 'react-icons/md'
+import { togglewishlists } from "../features/ourstore/storeSlice";
+import { useDispatch } from "react-redux";
+
 
 
 const ProductCard = (productstate, props) => {
   const { grid } = props;
   let location = useLocation();
+  const dispatch = useDispatch()
+
+  const handleAddWishlist = (productId) => {
+    dispatch(togglewishlists({ productId }))
+  }
   return (
     <>
       <div
@@ -15,16 +23,16 @@ const ProductCard = (productstate, props) => {
           } `}
       >
         <Link
-          to={`${location.pathname === "/"
-            ? "/product/:id"
-            : location.pathname === "/product/:id"
-              ? "/product/:id"
-              : ":id"
-            }`}
+          // to={`${location.pathname === "/"
+          //   ? "/product/:id"
+          //   : location.pathname === "/product/:id"
+          //     ? "/product/:id"
+          //     : ":id"
+          //   }`}
           className="product-card position-relative"
         >
           <div className="wishlist-icon position-absolute">
-            <button className="border-0 bg-transparent">
+            <button onClick={() => handleAddWishlist(productstate.product._id)} className="border-0 bg-transparent">
               {<FcBookmark />}
             </button>
           </div>

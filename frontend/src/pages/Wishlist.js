@@ -5,36 +5,38 @@ import Container from "../components/Container";
 import { RxCross2 } from "react-icons/rx"
 import { AiOutlineEye } from "react-icons/ai"
 import { MdOutlineAddShoppingCart } from 'react-icons/md'
-import { getProducts } from "../features/ourstore/storeSlice";
 import { useDispatch, useSelector } from 'react-redux';
+import { getallwishlist } from "../features/auth/authSlice";
+import { togglewishlists } from "../features/ourstore/storeSlice";
 
 
 const Wishlist = () => {
-
     const dispatch = useDispatch()
+    const userstate = useSelector((state) => state.auth.wishlist.user)
     useEffect(() => {
-        dispatch(getProducts())
+        dispatch(getallwishlist())
     }, [dispatch])
 
-    const productstate = useSelector((state) => state.ourstore.products)
-    const authstate = useSelector((state) => state.auth.user.user)
+    const handleRemoveWishlist = (productId) => {
+        dispatch(togglewishlists({ productId }))
+        setTimeout(() => {
+            dispatch(getallwishlist())
+        }, 100)
+    }
 
     return (
         <>
             <Meta title={"Wishlist"} />
             <BreadCrumb title="Wishlist" />
             <Container class1="wishlist-wrapper home-wrapper-2 py-5">
-                <div className="row">
-                    {authstate.wishlist.map((productId) => {
-                        const product = productstate.find((p) => p._id === productId)
-                        if (!product) return null
-                        return (
-
-                            < div key={product._id} className="col-3" >
+                {userstate && userstate.wishlist && userstate.wishlist.length > 0 ? (
+                    <div className="row">
+                        {userstate.wishlist.map((product) => (
+                            <div key={product._id} className="col-3">
                                 <div>
                                     <div className="product-card position-relative">
                                         <div className="wishlist-icon position-absolute">
-                                            <button className="border-0 bg-transparent">
+                                            <button onClick={() => handleRemoveWishlist(product._id)} className="border-0 bg-transparent">
                                                 {<RxCross2 className="cross-icon" />}
                                             </button>
                                         </div>
@@ -63,9 +65,13 @@ const Wishlist = () => {
                                     </div>
                                 </div>
                             </div>
-                        )
-                    })}
-                </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="d-flex justify-content-center">
+                        <h5>No Items in Your Wishlist</h5>
+                    </div>
+                )}
             </Container>
         </>
     );
