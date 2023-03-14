@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FcBookmark } from "react-icons/fc"
+import { FaBookmark, FaRegBookmark } from "react-icons/fa"
 import { AiOutlineEye } from "react-icons/ai"
 import { MdOutlineAddShoppingCart } from 'react-icons/md'
 import { togglewishlists } from "../features/ourstore/storeSlice";
@@ -13,8 +13,11 @@ const ProductCard = (productstate, props) => {
   let location = useLocation();
   const dispatch = useDispatch()
 
+  const [inWishlist, setInWishlist] = useState(false)
+
   const handleAddWishlist = (productId) => {
     dispatch(togglewishlists({ productId }))
+    setInWishlist(!inWishlist)
   }
   return (
     <>
@@ -33,7 +36,7 @@ const ProductCard = (productstate, props) => {
         >
           <div className="wishlist-icon position-absolute">
             <button onClick={() => handleAddWishlist(productstate.product._id)} className="border-0 bg-transparent">
-              {<FcBookmark />}
+              {inWishlist ? <FaBookmark /> : <FaRegBookmark />}
             </button>
           </div>
           <div className="product-image">

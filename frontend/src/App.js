@@ -13,6 +13,7 @@ import RefundPolicy from './pages/RefundPolicy';
 import Resetpassword from './pages/Resetpassword';
 import Wishlist from './pages/Wishlist';
 import OurStore from './pages/OurStore';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path='refund-policy' element={<RefundPolicy />} />
             <Route path='wishlist' element={<Wishlist />} />
             <Route path='product' element={<OurStore />} />
+            <Route path='cart' element={<Cart />} />
 
           </Route>
         </Routes>

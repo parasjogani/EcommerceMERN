@@ -304,8 +304,8 @@ footer .input-group-text {
 }
 
 .wishlist-icon {
-  top: 2.5%;
-  right: 15px;
+  top: 3%;
+  right: 16px;
   font-size: 24px;
 }
 
@@ -542,3 +542,56 @@ footer .input-group-text {
 }
 
 /* Policy Pages  ends */
+
+/* Cart Page */
+.cart-header,
+.cart-data {
+  border-bottom: 1px solid #eaeaea;
+}
+
+.cart-header h4 {
+  font-size: 15px;
+  color: var(--color-777777);
+}
+
+.cart-col-1 {
+  width: 40%;
+}
+
+.cart-col-1 p {
+  color: var(--color-777777);
+  font-size: 14px;
+}
+
+.cart-col-2 {
+  width: 10%;
+}
+
+.cart-col-3 {
+  width: 15%;
+}
+
+.cart-col-4 {
+  width: 15%;
+}
+
+.cart-data h5.price {
+  font-size: 14px;
+  color: var(--color-1c1c1b);
+}
+
+/* Cart Page Ends here */
+
+/* Shippping Page */
+
+.total {
+  font-size: 14px;
+  color: var(--color-1c1c1b);
+}
+
+.total-price {
+  font-size: 16px;
+  color: var(--color-777777);
+}
+
+/* Shipping page ends here */
